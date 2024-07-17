@@ -231,6 +231,8 @@ module.exports = async (on, config) => {
       - convert the cucumber-message.ndjson to cucumber-report.json
       - generate the html report (TBD)
   */
+
+  /*
   on('after:run', async (results) => {
     logger.info('override after:run');
 
@@ -349,6 +351,7 @@ module.exports = async (on, config) => {
   });
   return config;
 };
+*/
 
 /* Function to combine mochawesome json files
     @param arrayOfFiles - list of file paths to combine
