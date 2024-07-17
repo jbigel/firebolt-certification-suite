@@ -348,10 +348,9 @@ module.exports = async (on, config) => {
         }
       }
     }
-  });
+  });*/
   return config;
 };
-*/
 
 /* Function to combine mochawesome json files
     @param arrayOfFiles - list of file paths to combine
