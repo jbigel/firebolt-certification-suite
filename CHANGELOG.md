@@ -1,3 +1,10 @@
+## [1.2.2-dev.1](https://github.com/jbigel/firebolt-certification-suite/compare/v1.2.1...v1.2.2-dev.1) (2024-07-26)
+
+
+### Bug Fixes
+
+* fixing workflow title and adding failure message ([#11](https://github.com/jbigel/firebolt-certification-suite/issues/11)) ([366ce3c](https://github.com/jbigel/firebolt-certification-suite/commit/366ce3cbd7f2307273fd94e553f31859648e9550))
+
 ## [1.2.1](https://github.com/jbigel/firebolt-certification-suite/compare/v1.2.0...v1.2.1) (2024-07-26)
 
 
