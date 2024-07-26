@@ -7,8 +7,6 @@ on:
 
 jobs:
   call-release-workflow:
-    name: Dev Release
-    runs-on: ubuntu-latest
     uses: ./.github/workflows/release.yaml
     with:
       branch: 'dev'
