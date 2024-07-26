@@ -31,9 +31,11 @@ jobs:
         uses: ./.github/actions/fetch-latest-main
 
       - name: Install dependencies
+        shell: bash
         run: yarn install
 
       - name: Release to GitHub
+        shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.SEMANTIC_RELEASE_BOT_PAT }} # <-- Allows semantic-release-bot to push changes to protected branches (using a PAT to avoid rate limits)
           npm_config_tag: ${{ inputs.branch }} # <-- See ./.releaserc for release branch config.
