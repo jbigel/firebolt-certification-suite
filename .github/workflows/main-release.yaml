@@ -1,42 +1,14 @@
 name: Main Release to GitHub
 
 on:
+  push:
+    branches:
+      - 'main'
   workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Branch to use for the workflow'
-        required: true
-        default: 'main'
 
 jobs:
-  merge-dev-to-main:
-    name: Merge dev to main
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Set up Git
-        run: |
-          git config --global user.name "${{ github.actor }}"
-          git config --global user.email "${{ secrets.GITHUB_EMAIL }}"
-
-      - name: Checkout dev branch
-        run: git checkout dev
-
-      - name: Merge dev into main
-        run: |
-          git checkout main
-          git merge dev --no-ff
-          git push origin main
-
   release:
     name: Release
-    needs: merge-dev-to-main
-    if: ${{ success() }}
     uses: ./.github/workflows/release.yaml
     with:
       branch: 'main'
@@ -45,7 +17,7 @@ jobs:
 
   merge-main-to-dev:
     name: Merge main back to dev
-    needs: [merge-dev-to-main, release]
+    needs: [release]
     if: ${{ success() }}
     runs-on: ubuntu-latest
 
@@ -72,7 +44,7 @@ jobs:
 
   notify-on-failure:
     name: Notify on Failure
-    needs: [merge-dev-to-main, release, merge-main-to-dev]
+    needs: [release, merge-main-to-dev]
     if: ${{ failure() }}
     runs-on: ubuntu-latest
 
