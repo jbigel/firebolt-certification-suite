@@ -1,3 +1,11 @@
+## [1.2.1](https://github.com/jbigel/firebolt-certification-suite/compare/v1.2.0...v1.2.1) (2024-07-26)
+
+
+### Bug Fixes
+
+* setup main release on main pushes ([44a79fc](https://github.com/jbigel/firebolt-certification-suite/commit/44a79fc4f8ddb61e35e355e9c8f282795479174b))
+* setup merge as separate workflow ([27cd02f](https://github.com/jbigel/firebolt-certification-suite/commit/27cd02f31486f7a0d73919cf3922622a2e347810))
+
 # [1.2.0](https://github.com/jbigel/firebolt-certification-suite/compare/v1.1.0...v1.2.0) (2024-07-26)
 
 
