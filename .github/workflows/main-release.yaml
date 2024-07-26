@@ -52,4 +52,4 @@ jobs:
       - name: Notify Failure
         run: |
           echo "Merge or Release process failed. Check the logs for details."
-          # Add your preferred notification method here, e.g., send an email, create a GitHub issue, post a Slack message, etc.
+          # Add notification for stakeholders here, e.g., send an email, create a GitHub issue, post a Slack message, etc.
