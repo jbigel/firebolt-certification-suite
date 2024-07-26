@@ -1,3 +1,10 @@
+## [1.3.2-dev.1](https://github.com/jbigel/firebolt-certification-suite/compare/v1.3.1...v1.3.2-dev.1) (2024-07-26)
+
+
+### Bug Fixes
+
+* Temp remove lint check ([#16](https://github.com/jbigel/firebolt-certification-suite/issues/16)) ([bb8ecfe](https://github.com/jbigel/firebolt-certification-suite/commit/bb8ecfe5095a40063070175422678f3728427b61))
+
 ## [1.3.1](https://github.com/jbigel/firebolt-certification-suite/compare/v1.3.0...v1.3.1) (2024-07-26)
 
 
