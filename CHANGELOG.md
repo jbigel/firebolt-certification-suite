@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/jbigel/firebolt-certification-suite/compare/v1.3.0...v1.3.1) (2024-07-26)
+
+
+### Bug Fixes
+
+* revert to one workflow for dev to main to release ([da07297](https://github.com/jbigel/firebolt-certification-suite/commit/da072975b5d726402d623b2d4ea901b2b255243b))
+
 # [1.3.0](https://github.com/jbigel/firebolt-certification-suite/compare/v1.2.2...v1.3.0) (2024-07-26)
 
 
