@@ -1,3 +1,17 @@
+# [1.3.0-dev.1](https://github.com/jbigel/firebolt-certification-suite/compare/v1.2.3-dev.1...v1.3.0-dev.1) (2024-07-26)
+
+
+### Features
+
+* Msg update ([#14](https://github.com/jbigel/firebolt-certification-suite/issues/14)) ([5f391d9](https://github.com/jbigel/firebolt-certification-suite/commit/5f391d99007fb73fbcffac591d47fb8008c2d82d))
+
+## [1.2.3-dev.1](https://github.com/jbigel/firebolt-certification-suite/compare/v1.2.2...v1.2.3-dev.1) (2024-07-26)
+
+
+### Bug Fixes
+
+* Msg fix ([#13](https://github.com/jbigel/firebolt-certification-suite/issues/13)) ([9dc84c3](https://github.com/jbigel/firebolt-certification-suite/commit/9dc84c3d0fabc1b82f71031bc86c9ec7e1e7f1d8))
+
 ## [1.2.2](https://github.com/jbigel/firebolt-certification-suite/compare/v1.2.1...v1.2.2) (2024-07-26)
 
 
