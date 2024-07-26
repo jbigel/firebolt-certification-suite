@@ -10,3 +10,5 @@ jobs:
     uses: ./.github/workflows/release.yaml
     with:
       branch: 'dev'
+    secrets:
+      SEMANTIC_RELEASE_BOT_PAT: ${{ secrets.SEMANTIC_RELEASE_BOT_PAT }}

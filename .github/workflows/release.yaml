@@ -6,6 +6,9 @@ on:
       branch:
         type: string
         required: true
+    secrets:
+      SEMANTIC_RELEASE_BOT_PAT:
+        required: true
 
 jobs:
   release:

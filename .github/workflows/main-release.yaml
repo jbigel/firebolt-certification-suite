@@ -40,6 +40,8 @@ jobs:
     uses: ./.github/workflows/release.yaml
     with:
       branch: 'main'
+    secrets:
+      SEMANTIC_RELEASE_BOT_PAT: ${{ secrets.SEMANTIC_RELEASE_BOT_PAT }}
 
   merge-main-to-dev:
     name: Merge main back to dev
