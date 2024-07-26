@@ -1,5 +1,7 @@
 # firebolt-certification-suite
 
+## New Feature
+
 ## Dependencies
 
 Firebolt certification suite has the following dependencies.
