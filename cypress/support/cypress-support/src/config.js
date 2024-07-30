@@ -15,7 +15,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-const requestModules = 'requestModules';
+let requestModules = 'requestModules';
 const responseModules = 'responseModules';
 const defaultModule = 'defaultModule';
 const defaultMethod = 'defaultMethod';

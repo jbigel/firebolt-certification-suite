@@ -64,20 +64,10 @@ jobs:
 
       - name: Notify PR on Failure
         if: ${{ failure() && github.event_name == 'pull_request' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_COMMENT: ${{ steps.comment.outputs.PR_COMMENT }}
-        run: |
-          JSON_PAYLOAD=$(jq -n --arg body "$PR_COMMENT" '{"body": $body}')
-
-          echo "Generated JSON payload:"
-          echo "$JSON_PAYLOAD"
-
-          curl -X POST \
-            -H "Authorization: Bearer $GITHUB_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d "$JSON_PAYLOAD" \
-            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
+        uses: ./.github/actions/pr-comment
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pr_comment: ${{ steps.comment.outputs.PR_COMMENT }}
 
   run_testcase:
     runs-on: ubuntu-latest
@@ -126,19 +116,7 @@ jobs:
 
       - name: Notify PR on Failure
         if: ${{ failure() && github.event_name == 'pull_request' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_COMMENT: ${{ steps.comment.outputs.PR_COMMENT }}
-        run: |
-          # Read the content of failure_reason.txt into a variable
-          FAILURE_REASON_CONTENT=$(cat failure_reason.txt)
-          JSON_PAYLOAD=$(jq -n --arg body "$PR_COMMENT :: $FAILURE_REASON_CONTENT" '{"body": $body}')
-
-          echo "Generated JSON payload:"
-          echo "$JSON_PAYLOAD"
-
-          curl -X POST \
-            -H "Authorization: Bearer $GITHUB_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d "$JSON_PAYLOAD" \
-            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
+        uses: ./.github/actions/pr-comment
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pr_comment: "$PR_COMMENT :: ${{ steps.comment.outputs.PR_COMMENT }}"
