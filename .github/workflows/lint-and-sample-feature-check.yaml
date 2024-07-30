@@ -6,6 +6,13 @@ on:
       - dev
       - main
   workflow_call:
+    inputs:
+      branch:
+        type: string
+        required: false
+    secrets:
+      GITHUB_TOKEN:
+        required: false
 
 jobs:
   lint:
@@ -16,6 +23,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.branch || github.head_ref }}
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
