@@ -5,9 +5,9 @@ on:
 
 jobs:
   validate-dev:
-    uses: ./.github/workflows/link-and-sample-feature-check.yaml
+    uses: ./.github/workflows/lint-and-sample-feature-check.yaml
     with:
-      ref: 'dev'
+      branch: 'dev'
 
   merge-dev-to-main:
     name: Merge dev to main
