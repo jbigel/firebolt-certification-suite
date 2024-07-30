@@ -4,8 +4,14 @@ on:
   workflow_dispatch:
 
 jobs:
+  validate-dev:
+    uses: ./.github/workflows/link-and-sample-feature-check.yaml
+    with:
+      ref: 'dev'
+
   merge-dev-to-main:
     name: Merge dev to main
+    needs: validate-dev
     runs-on: ubuntu-latest
 
     steps:
@@ -30,8 +36,7 @@ jobs:
           
   release:
     name: Release
-    needs: [ merge-dev-to-main]
-    if: ${{ success() }}
+    needs: merge-dev-to-main
     uses: ./.github/workflows/release.yaml
     with:
       branch: 'main'
@@ -40,8 +45,7 @@ jobs:
 
   merge-main-to-dev:
     name: Merge main back to dev
-    needs: [release]
-    if: ${{ success() }}
+    needs: release
     runs-on: ubuntu-latest
 
     steps:
@@ -67,7 +71,7 @@ jobs:
 
   notify-on-failure:
     name: Notify on Failure
-    needs: [merge-dev-to-main, release, merge-main-to-dev]
+    needs: [validate-dev, merge-dev-to-main, release, merge-main-to-dev]
     if: ${{ failure() }}
     runs-on: ubuntu-latest
 
