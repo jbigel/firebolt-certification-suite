@@ -10,9 +10,6 @@ on:
       branch:
         type: string
         required: false
-    secrets:
-      GITHUB_TOKEN:
-        required: false
 
 jobs:
   lint:
