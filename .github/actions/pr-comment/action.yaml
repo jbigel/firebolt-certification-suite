@@ -15,6 +15,7 @@ runs:
     - name: Run comment script
       shell: bash
       run: |
+        echo ${{ inputs.pr_comment }}
         JSON_PAYLOAD=$(jq -n --arg body "${{ inputs.pr_comment }}" '{"body": $body}')
         
         echo "Generated JSON payload:"
@@ -23,5 +24,5 @@ runs:
         curl -X POST \
             -H "Authorization: Bearer ${{ inputs.github_token }}" \
             -H "Content-Type: application/json" \
-            -d { "body": ${{ inputs.pr_comment }} } \
+            -d "$JSON_PAYLOAD" \
             "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
