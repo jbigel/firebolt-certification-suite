@@ -67,7 +67,7 @@ jobs:
         uses: ./.github/actions/pr-comment
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          pr_comment: "${{ steps.comment.outputs.PR_COMMENT }}"
+          pr_comment: ${{ steps.comment.outputs.PR_COMMENT }}
 
   run_testcase:
     runs-on: ubuntu-latest
