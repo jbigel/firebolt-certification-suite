@@ -21,8 +21,6 @@ runs:
         escaped_pr_comment=$(echo "$pr_comment" | jq -R .)
         
         JSON_PAYLOAD=$(jq -n --arg body "$escaped_pr_comment" '{"body": $body}')
-#        echo "${{ inputs.pr_comment }}"
-#        JSON_PAYLOAD=$(jq -n --arg body "${{ inputs.pr_comment }}" '{"body": $body}')
         
         echo "Generated JSON payload:"
         echo "$JSON_PAYLOAD"
