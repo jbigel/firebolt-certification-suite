@@ -57,6 +57,7 @@ jobs:
               echo ""
               echo EOF
             } >> "$GITHUB_OUTPUT"
+            echo ${{ steps.comment.outputs.PR_COMMENT }}
             exit 1
           else
             echo "PR_COMMENT=Linting succeeded." >> "$GITHUB_OUTPUT"
