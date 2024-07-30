@@ -15,7 +15,7 @@ runs:
     - name: Run comment script
       shell: bash
       run: |
-        echo ${{ inputs.pr_comment }}
+        echo "${{ inputs.pr_comment }}"
         JSON_PAYLOAD=$(jq -n --arg body "${{ inputs.pr_comment }}" '{"body": $body}')
         
         echo "Generated JSON payload:"
