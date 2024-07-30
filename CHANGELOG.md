@@ -1,3 +1,11 @@
+## [1.5.1](https://github.com/jbigel/firebolt-certification-suite/compare/v1.5.0...v1.5.1) (2024-07-30)
+
+
+### Bug Fixes
+
+* call not dispatch ([07a2296](https://github.com/jbigel/firebolt-certification-suite/commit/07a2296e03ff6859db53d890c9e149958adca3e8))
+* typo in workflow file ([6e481f7](https://github.com/jbigel/firebolt-certification-suite/commit/6e481f70de39adede7385229dc2a8fd2219b8bc8))
+
 # [1.5.0](https://github.com/jbigel/firebolt-certification-suite/compare/v1.4.0...v1.5.0) (2024-07-30)
 
 
