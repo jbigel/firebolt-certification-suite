@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/jbigel/firebolt-certification-suite/compare/v1.4.0...v1.5.0) (2024-07-30)
+
+
+### Features
+
+* adding lint and feature file check as merge to main precursor ([#18](https://github.com/jbigel/firebolt-certification-suite/issues/18)) ([b09bcd1](https://github.com/jbigel/firebolt-certification-suite/commit/b09bcd10adad7d2299ff92df66bd112a3ea0fa98))
+
 # [1.5.0-dev.1](https://github.com/jbigel/firebolt-certification-suite/compare/v1.4.0...v1.5.0-dev.1) (2024-07-30)
 
 
