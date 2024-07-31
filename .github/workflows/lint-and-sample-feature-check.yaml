@@ -73,7 +73,7 @@ jobs:
         uses: ./.github/actions/pr-comment
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          pr_comment: "fjjfjf"
+          pr_comment: $(cat pr_comment.txt)
 
   run_testcase:
     runs-on: ubuntu-latest
