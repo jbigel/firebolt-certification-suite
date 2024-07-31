@@ -94,7 +94,9 @@ jobs:
 
       # To remove ANSI escape characters
       - name: Remove ANSI escape codes from sampleRunOutput.txt
-        run: sed -i "s/\x1B\[[0-9;]*[JKmsu]//g" sampleRunOutput.txt
+        run: |
+          cat sampleRunOutput.txt
+          sed -i "s/\x1B\[[0-9;]*[JKmsu]//g" sampleRunOutput.txt
 
       - name: Determine comment based on test results
         id: comment
@@ -109,10 +111,10 @@ jobs:
                             /\[mochawesome\]/b
                             p
                             }' sampleRunOutput.txt > failure_reason.txt)
-            echo "PR_COMMENT=Hello feature Run failed" >> "$GITHUB_OUTPUT"
+            echo "PR_COMMENT=Hello feature Run failed $(cat failure_reason.txt)" >> "$GITHUB_OUTPUT"
             exit 1
           else
-            echo "PR_COMMENT=Hello feature Run Passed." >> "$GITHUB_OUTPUT"
+            echo "Hello feature Run Passed."
           fi
 
       - name: Notify PR on Failure
@@ -120,4 +122,4 @@ jobs:
         uses: ./.github/actions/pr-comment
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          pr_comment: "$PR_COMMENT :: ${{ steps.comment.outputs.PR_COMMENT }}"
+          pr_comment: ${{ steps.comment.outputs.PR_COMMENT }}
