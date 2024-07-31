@@ -19,7 +19,7 @@ runs:
         
         #$(echo "${{ inputs.pr_comment }}" | jq -Rs .) > pr_comment.txt
 
-        PR_COMMENT=${{ inputs.pr_comment }}
+        PR_COMMENT="${{ inputs.pr_comment }}"
 
         # JSON_PAYLOAD=$(jq -n --arg body "${{ inputs.pr_comment }}" '{"body": $body}')
         JSON_PAYLOAD={\"body\": \"$PR_COMMENT\"}
