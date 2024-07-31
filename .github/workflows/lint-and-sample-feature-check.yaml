@@ -33,6 +33,13 @@ jobs:
 
       - name: Check for linting errors
         run: |
+          pwd
+          ls -lrt
+          echo $GITHUB_PATH
+          cd $GITHUB_PATH
+          pwd
+          ls -lrt
+          
           echo "yarn run v1.22.22" > lintOutput.txt
           echo "$ eslint ." >> lintOutput.txt
           echo "/home/runner/work/firebolt-certification-suite/firebolt-certification-suite/cypress/support/cypress-support/src/config.js" >> lintOutput.txt
