@@ -55,14 +55,18 @@ jobs:
           cat lintOutput.txt
           
           if [ -n "$LINT_ERRORS" ]; then
-            echo -n 'Issue with linting detected.\n' > pr_comment.txt
-            echo -n 'Linting failed with the following errors:\n' >> pr_comment.txt
-            echo -n '```\n' >> pr_comment.txt
-            awk '{printf "%s\\n", $0}' lintOutput.txt >> pr_comment.txt
-            echo -n '```\n' >> pr_comment.txt
-            echo -n '\n' >> pr_comment.txt
-            echo -n 'For more information on our linting policies, please see our [Linting-Guide](../tree/dev/Linting-Guide.md).\n' >> pr_comment.txt
-            echo -n '\n' >> pr_comment.txt
+           {
+              echo 'PR_COMMENT=<<EOF'
+              echo -n 'Issue with linting detected.\n'
+              echo -n 'Linting failed with the following errors:\n'
+              echo -n '```\n'
+              awk '{printf "%s\\n", $0}' lintOutput.txt
+              echo -n '```\n'
+              echo -n '\n'
+              echo -n 'For more information on our linting policies, please see our [Linting-Guide](../tree/dev/Linting-Guide.md).\n'
+              echo -n '\n'
+              echo -n 'EOF'
+            } >> "$GITHUB_OUTPUT"
             exit 1
           else
             echo "PR_COMMENT=Linting succeeded."
@@ -73,7 +77,7 @@ jobs:
         uses: ./.github/actions/pr-comment
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          pr_comment: $(cat pr_comment.txt)
+          pr_comment: ${{ steps.comment.outputs.PR_COMMENT }}
 
   run_testcase:
     runs-on: ubuntu-latest
