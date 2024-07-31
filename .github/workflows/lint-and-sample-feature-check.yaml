@@ -38,7 +38,7 @@ jobs:
           echo "/home/runner/work/firebolt-certification-suite/firebolt-certification-suite/cypress/support/cypress-support/src/config.js" >> lintOutput.txt
           echo "18:5  error  'requestModules' is never reassigned. Use 'const' instead  prefer-const" >> lintOutput.txt
           echo "✖ 1 problem (1 error, 0 warnings)" >> lintOutput.txt
-          echo "1 error and 0 warnings potentially fixable with the `--fix` option." >> lintOutput.txt
+          echo "1 error and 0 warnings potentially fixable with the \`--fix\` option." >> lintOutput.txt
           echo "info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command." >> lintOutput.txt
 
           
