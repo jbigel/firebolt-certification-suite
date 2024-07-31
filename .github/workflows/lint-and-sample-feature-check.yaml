@@ -108,7 +108,7 @@ jobs:
               echo 'PR_COMMENT<<EOF'
               echo -n 'Build error occured while running sample test with the following errors:\n'
               echo -n '```\n'
-              echo -n "$BUILD_ERRORS"
+              awk '{printf "%s\\n", $0}' $BUILD_ERRORS
               echo -n '```\n'
               echo 'For more information on our testing policies, please see our [Testing-Guide](../tree/dev/Testing-Guide.md).\n'
               echo 'EOF'
