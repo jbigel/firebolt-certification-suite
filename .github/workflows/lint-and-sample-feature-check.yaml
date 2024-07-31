@@ -67,6 +67,7 @@ jobs:
               echo -n '\n'
               echo -n 'EOF'
             } >> "$GITHUB_OUTPUT"
+            cat $GITHUB_OUTPUT
             exit 1
           else
             echo "PR_COMMENT=Linting succeeded."
