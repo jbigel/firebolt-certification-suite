@@ -22,14 +22,14 @@ runs:
         PR_COMMENT="${{ inputs.pr_comment }}"
 
         # JSON_PAYLOAD=$(jq -n --arg body "${{ inputs.pr_comment }}" '{"body": $body}')
-        JSON_PAYLOAD={\"body\": \"$PR_COMMENT\"}
+        #JSON_PAYLOAD={\"body\": \"$PR_COMMENT\"}
         #JSON_PAYLOAD={\"body\":\"$(cat pr_comment.txt)\"}
         
         echo "Generated JSON payload:"
-        echo "$JSON_PAYLOAD"
+        #echo "$JSON_PAYLOAD"
         
         curl -X POST \
             -H "Authorization: Bearer ${{ inputs.github_token }}" \
             -H "Content-Type: application/json" \
-            -d "$JSON_PAYLOAD" \
+            -d "{\"body\": \"$PR_COMMENT\"}" \
             "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
