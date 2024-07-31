@@ -102,7 +102,7 @@ jobs:
         id: comment
         run: |
           if grep -q "Build failed" sampleRunOutput.txt; then
-            BUILD_ERRORS=$(grep -A 10 "Build failed" sampleRunOutput.txt) # Adjust -A value to capture the desired number of lines after "Build failed"
+            BUILD_ERRORS=$(grep -A 10 "Build failed" sampleRunOutput.txt) 
             {
               echo 'PR_COMMENT<<EOF'
               echo -n "Build error occured while running sample test with the following errors:\n"
@@ -113,7 +113,7 @@ jobs:
               echo "EOF"
             } >> "$GITHUB_OUTPUT"
             exit 1
-          else {
+          else
             PASSING_COUNT=$(grep -o '[0-9]\+ passing' sampleRunOutput.txt | grep -o '[0-9]\+' || echo 0)
             
             FAILING_COUNT=$(grep -o '[0-9]\+ failing' sampleRunOutput.txt | grep -o '[0-9]\+' || echo 0)
