@@ -33,13 +33,15 @@ jobs:
 
       - name: Check for linting errors
         run: |
-          echo "yarn run v1.22.22 \
-                  $ eslint . \
-                  /home/runner/work/firebolt-certification-suite/firebolt-certification-suite/cypress/support/cypress-support/src/config.js
-                  18:5  error  'requestModules' is never reassigned. Use 'const' instead  prefer-const \
-                  ✖ 1 problem (1 error, 0 warnings) \
-                  1 error and 0 warnings potentially fixable with the `--fix` option. \
-                  info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command." > lintOutput.txt
+          echo "yarn run v1.22.22" > lintOutput.txt
+          echo "$ eslint ." >> lintOutput.txt
+          echo "/home/runner/work/firebolt-certification-suite/firebolt-certification-suite/cypress/support/cypress-support/src/config.js" >> lintOutput.txt
+          echo "18:5  error  'requestModules' is never reassigned. Use 'const' instead  prefer-const" >> lintOutput.txt
+          echo "✖ 1 problem (1 error, 0 warnings)" >> lintOutput.txt
+          echo "1 error and 0 warnings potentially fixable with the `--fix` option." >> lintOutput.txt
+          echo "info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command." >> lintOutput.txt
+
+          
 #        yarn run lint > lintOutput.txt || true
 
       - name: Determine comment based on linting results
