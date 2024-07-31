@@ -100,9 +100,7 @@ jobs:
 
       - name: Determine comment based on test results
         id: comment
-        run: |
-          cat sampleRunOutput.txt
-          
+        run: |          
           PASSING_COUNT=$(grep -oP '\d+ passing' samplRunOutput.txt | grep -oP '\d+')
           FAILING_COUNT=$(grep -oP '\d+ failing' samplRunOutput.txt | grep -oP '\d+')
 
