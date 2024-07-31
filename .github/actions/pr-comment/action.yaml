@@ -14,12 +14,7 @@ runs:
   steps:
     - name: Run comment script
       shell: bash
-      run: |
-        pwd
-        ls -lrt
-        
-        cat pr_comment.txt
-        
+      run: |       
         # Escape special characters in pr_comment and write to pr_comment.txt
         
         #$(echo "${{ inputs.pr_comment }}" | jq -Rs .) > pr_comment.txt
