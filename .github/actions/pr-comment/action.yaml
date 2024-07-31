@@ -15,13 +15,13 @@ runs:
     - name: Run comment script
       shell: bash
       run: |
-        echo "${{ inputs.pr_comment }}"
         echo "${{ inputs.pr_comment }}" >> pr_comment.txt
+        cat pr_comment.txt
         # Escape special characters in pr_comment
         escaped_pr_comment=$(printf '%s\n' "${{ inputs.pr_comment }}" | jq -R .)
 
         # JSON_PAYLOAD=$(jq -n --arg body "$escaped_pr_comment" '{"body": $body}')
-        JSON_PAYLOAD={\"body\":$(cat pr_comment.txt)}
+        JSON_PAYLOAD={\"body\":\"$(cat pr_comment.txt)\"}
         
         echo "Generated JSON payload:"
         echo "$JSON_PAYLOAD"
