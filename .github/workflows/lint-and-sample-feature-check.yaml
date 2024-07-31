@@ -55,7 +55,7 @@ jobs:
               echo ""
               echo "For more information on our linting policies, please see our [Linting-Guide](../tree/dev/Linting-Guide.md)."
               echo ""
-              echo EOF
+              echo 'EOF'
             } >> "$GITHUB_OUTPUT"
             exit 1
           else
