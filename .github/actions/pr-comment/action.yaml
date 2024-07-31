@@ -17,7 +17,7 @@ runs:
       run: |
         # Escape special characters in pr_comment and write to pr_comment.txt
         
-        echo "${{ inputs.pr_comment }}" | jq -Rs . > pr_comment.txt
+        $(echo "${{ inputs.pr_comment }}" | jq -Rs .) > pr_comment.txt
         cat pr_comment.txt
 
         #JSON_PAYLOAD=$(jq -n --arg body "$escaped_pr_comment" '{"body": $body}')
