@@ -19,7 +19,7 @@ runs:
         escaped_pr_comment=$(printf '%s\n' "${{ inputs.pr_comment }}" | jq -Rsa .)
         echo "$escaped_pr_comment"
 
-        JSON_PAYLOAD=$(jq -n --arg body "$escaped_pr_comment" '{"body": $body}')
+        JSON_PAYLOAD=$(jq -n --arg body $escaped_pr_comment '{"body": $body}')
         # JSON_PAYLOAD={\"body\":\"$(cat pr_comment.txt)}
         
         echo "Generated JSON payload:"
