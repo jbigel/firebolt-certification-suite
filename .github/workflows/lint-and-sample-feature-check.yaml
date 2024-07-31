@@ -56,7 +56,7 @@ jobs:
           
           if [ -n "$LINT_ERRORS" ]; then
            {
-              echo 'PR_COMMENT=<<EOF'
+              echo 'PR_COMMENT<<EOF'
               echo -n 'Issue with linting detected.\n'
               echo -n 'Linting failed with the following errors:\n'
               echo -n '```\n'
