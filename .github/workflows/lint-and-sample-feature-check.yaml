@@ -102,13 +102,13 @@ jobs:
         run: |
           if grep -q "Build failed" sampleRunOutput.txt; then
           
-            BUILD_ERRORS=$(grep -A 10 "Build failed" sampleRunOutput.txt) 
+            grep -A 10 "Build failed" sampleRunOutput.txt > buildErrors.txt
 
             {
               echo 'PR_COMMENT<<EOF'
               echo -n 'Build error occured while running sample test with the following errors:\n'
               echo -n '```\n'
-              awk '{printf "%s\\n", $0}' $BUILD_ERRORS
+              awk '{printf "%s\\n", $0}' buildErrors.txt
               echo -n '```\n'
               echo 'For more information on our testing policies, please see our [Testing-Guide](../tree/dev/Testing-Guide.md).\n'
               echo 'EOF'
