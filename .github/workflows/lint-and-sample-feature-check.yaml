@@ -64,7 +64,7 @@ jobs:
               echo -n '```\n'
               echo -n '\n'
               echo -n 'For more information on our linting policies, please see our [Linting-Guide](../tree/dev/Linting-Guide.md).\n'
-              echo -n '\n'
+              echo '\n'
               echo 'EOF'
             } >> "$GITHUB_OUTPUT"
             cat $GITHUB_OUTPUT
