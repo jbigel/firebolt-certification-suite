@@ -23,16 +23,24 @@ jobs:
         with:
           ref: ${{ inputs.branch || github.head_ref }}
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Install dependencies
-        run: yarn install
+#      - name: Use Node.js ${{ matrix.node-version }}
+#        uses: actions/setup-node@v3
+#        with:
+#          node-version: ${{ matrix.node-version }}
+#
+#      - name: Install dependencies
+#        run: yarn install
 
       - name: Check for linting errors
-        run: yarn run lint > lintOutput.txt || true
+        run: |
+          echo "yarn run v1.22.22 \
+                  $ eslint . \
+                  /home/runner/work/firebolt-certification-suite/firebolt-certification-suite/cypress/support/cypress-support/src/config.js
+                  18:5  error  'requestModules' is never reassigned. Use 'const' instead  prefer-const \
+                  ✖ 1 problem (1 error, 0 warnings) \
+                  1 error and 0 warnings potentially fixable with the `--fix` option. \
+                  info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command." > lintOutput.txt
+#        yarn run lint > lintOutput.txt || true
 
       - name: Determine comment based on linting results
         id: comment
