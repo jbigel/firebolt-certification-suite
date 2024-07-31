@@ -15,7 +15,7 @@ runs:
     - name: Run comment script
       shell: bash
       run: |
-        echo "${{ inputs.pr_comment }}" >> pr_comment.txt
+        printf '%s\n' "${{ inputs.pr_comment }}" >> pr_comment.txt
         cat pr_comment.txt
         # Escape special characters in pr_comment
         escaped_pr_comment=$(printf '%s\n' "${{ inputs.pr_comment }}" | jq -R .)
