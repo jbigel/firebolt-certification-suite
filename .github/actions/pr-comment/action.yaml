@@ -20,7 +20,7 @@ runs:
         #$(echo "${{ inputs.pr_comment }}" | jq -Rs .) > pr_comment.txt
 
         # JSON_PAYLOAD=$(jq -n --arg body "${{ inputs.pr_comment }}" '{"body": $body}')
-        JSON_PAYLOAD="{\"body\": \"${{ inputs.pr_comment }}\"}"
+        JSON_PAYLOAD={\"body\": \"${{ inputs.pr_comment }}\"}
         #JSON_PAYLOAD={\"body\":\"$(cat pr_comment.txt)\"}
         
         echo "Generated JSON payload:"
