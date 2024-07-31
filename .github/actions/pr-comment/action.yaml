@@ -15,6 +15,13 @@ runs:
     - name: Run comment script
       shell: bash
       run: |
+        pwd
+        ls -lrt
+        echo $GITHUB_PATH
+        cd $GITHUB_PATH
+        pwd
+        ls -lrt
+        
         cat lintOutput.txt
         # Escape special characters in pr_comment and write to pr_comment.txt
         
