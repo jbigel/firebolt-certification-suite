@@ -100,22 +100,37 @@ jobs:
 
       - name: Determine comment based on test results
         id: comment
-        run: |          
-          PASSING_COUNT=$(grep -o '[0-9]\+ passing' sampleRunOutput.txt | grep -o '[0-9]\+')
-          FAILING_COUNT=$(grep -o '[0-9]\+ failing' sampleRunOutput.txt | grep -o '[0-9]\+')
-
-          echo "passing: $PASSING_COUNT, failing: $FAILING_COUNT"
-          
-          if [ "$FAILING_COUNT" -eq 0 ] && [ "$PASSING_COUNT" -gt 0 ]; then
-            echo "Tests passed successfully."
-          else
-            FAILURE_REASON=$(sed -n '/1 failing/,/\[mochawesome\]/ {
-                            /1 failing/b
-                            /\[mochawesome\]/b
-                            p
-                            }' sampleRunOutput.txt > failure_reason.txt)
-            echo "PR_COMMENT=Hello feature Run failed $(cat failure_reason.txt)" >> "$GITHUB_OUTPUT"
+        run: |
+          if grep -q "Build failed" sampleRunOutput.txt; then
+            BUILD_ERRORS=$(grep -A 10 "Build failed" sampleRunOutput.txt) # Adjust -A value to capture the desired number of lines after "Build failed"
+            {
+              echo 'PR_COMMENT<<EOF'
+              echo -n "Build error occured while running sample test with the following errors:\n"
+              echo -n "```\n"
+              echo -n "$BUILD_ERRORS"
+              echo -n "```\n"
+              echo "For more information on our testing policies, please see our [Testing-Guide](../tree/dev/Testing-Guide.md).\n"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
             exit 1
+          else {
+            PASSING_COUNT=$(grep -o '[0-9]\+ passing' sampleRunOutput.txt | grep -o '[0-9]\+' || echo 0)
+            
+            FAILING_COUNT=$(grep -o '[0-9]\+ failing' sampleRunOutput.txt | grep -o '[0-9]\+' || echo 0)
+            
+            echo "passing $PASSING_COUNT, failing $FAILING_COUNT"
+          
+            if [ "$FAILING_COUNT" -eq 0 ] && [ "$PASSING_COUNT" -gt 0 ]; then
+              echo "Tests passed successfully."
+            else
+              FAILURE_REASON=$(sed -n '/1 failing/,/\[mochawesome\]/ {
+                              /1 failing/b
+                              /\[mochawesome\]/b
+                              p
+                              }' sampleRunOutput.txt > failure_reason.txt)
+              echo "PR_COMMENT=Hello feature Run failed $(cat failure_reason.txt)" >> "$GITHUB_OUTPUT"
+              exit 1
+            fi
           fi
 
       - name: Notify PR on Failure
