@@ -101,11 +101,16 @@ jobs:
       - name: Determine comment based on test results
         id: comment
         run: |
-
-          git branch
           cat sampleRunOutput.txt
           
-          if grep -q "0 passing" sampleRunOutput.txt; then
+          PASSING_COUNT=$(grep -oP '\d+ passing' samplRunOutput.txt | grep -oP '\d+')
+          FAILING_COUNT=$(grep -oP '\d+ failing' samplRunOutput.txt | grep -oP '\d+')
+
+          echo "passing: $PASSING_COUNT, failing: $FAILING_COUNT"
+          
+          if [ "$FAILING_COUNT" -eq 0 ] && [ "$PASSING_COUNT" -gt 0 ]; then
+            echo "Tests passed successfully."
+          else
             FAILURE_REASON=$(sed -n '/1 failing/,/\[mochawesome\]/ {
                             /1 failing/b
                             /\[mochawesome\]/b
@@ -113,8 +118,6 @@ jobs:
                             }' sampleRunOutput.txt > failure_reason.txt)
             echo "PR_COMMENT=Hello feature Run failed $(cat failure_reason.txt)" >> "$GITHUB_OUTPUT"
             exit 1
-          else
-            echo "Hello feature Run Passed."
           fi
 
       - name: Notify PR on Failure
