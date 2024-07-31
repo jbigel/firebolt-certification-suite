@@ -37,10 +37,6 @@ jobs:
           echo "toot" > HELLO_WORLD.txt
           pwd
           ls -lrt
-          echo $GITHUB_PATH
-          cd $GITHUB_PATH
-          pwd
-          ls -lrt
           cat HELLO_WORLD.txt
           
           echo "yarn run v1.22.22" > lintOutput.txt
