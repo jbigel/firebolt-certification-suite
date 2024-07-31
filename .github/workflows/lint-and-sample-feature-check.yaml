@@ -57,9 +57,9 @@ jobs:
           if [ -n "$LINT_ERRORS" ]; then
             echo -n 'Issue with linting detected.\n' > pr_comment.txt
             echo -n 'Linting failed with the following errors:\n' >> pr_comment.txt
-            echo -n '\`\`\`\n' >> pr_comment.txt
-            cat lintOutput.txt >> pr_comment.txt
-            echo -n '\`\`\`\n' >> pr_comment.txt
+            echo -n '```\n' >> pr_comment.txt
+            awk '{printf "%s\\n", $0}' lintOutput.txt >> pr_comment.txt
+            echo -n '```\n' >> pr_comment.txt
             echo -n '\n' >> pr_comment.txt
             echo -n 'For more information on our linting policies, please see our [Linting-Guide](../tree/dev/Linting-Guide.md).\n' >> pr_comment.txt
             echo -n '\n' >> pr_comment.txt
