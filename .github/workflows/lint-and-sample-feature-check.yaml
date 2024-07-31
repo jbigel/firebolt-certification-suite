@@ -57,7 +57,6 @@ jobs:
               echo '\n'
               echo 'EOF'
             } >> "$GITHUB_OUTPUT"
-            cat $GITHUB_OUTPUT
             exit 1
           else
             echo "PR_COMMENT=Linting succeeded."
@@ -104,18 +103,20 @@ jobs:
           if grep -q "Build failed" sampleRunOutput.txt; then
           
             BUILD_ERRORS=$(grep -A 10 "Build failed" sampleRunOutput.txt) 
-            echo "made it here"
-          fi
 
-          #   {
-          #     echo 'PR_COMMENT<<EOF'
-          #     echo -n 'Build error occured while running sample test with the following errors:\n'
-          #     echo -n '```\n'
-          #     echo -n "$BUILD_ERRORS"
-          #     echo -n '```\n'
-          #     echo 'For more information on our testing policies, please see our [Testing-Guide](../tree/dev/Testing-Guide.md).\n'
-          #     echo 'EOF'
-          #   } >> "$GITHUB_OUTPUT"
+            {
+              echo 'PR_COMMENT<<EOF'
+              echo -n 'Build error occured while running sample test with the following errors:\n'
+              echo -n '```\n'
+              echo -n "$BUILD_ERRORS"
+              echo -n '```\n'
+              echo 'For more information on our testing policies, please see our [Testing-Guide](../tree/dev/Testing-Guide.md).\n'
+              echo 'EOF'
+            } >> "$GITHUB_OUTPUT"
+            
+            echo "made it here"
+            echo "$GITHUB_OUTPUT"
+          fi
           #   exit 1
           # else
           #   PASSING_COUNT=$(grep -o '[0-9]\+ passing' sampleRunOutput.txt | grep -o '[0-9]\+' || echo 0)
