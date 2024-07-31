@@ -32,13 +32,7 @@ jobs:
 #        run: yarn install
 
       - name: Check for linting errors
-        run: |
-
-          echo "toot" > HELLO_WORLD.txt
-          pwd
-          ls -lrt
-          cat HELLO_WORLD.txt
-          
+        run: |          
           echo "yarn run v1.22.22" > lintOutput.txt
           echo "$ eslint ." >> lintOutput.txt
           echo "/home/runner/work/firebolt-certification-suite/firebolt-certification-suite/cypress/support/cypress-support/src/config.js" >> lintOutput.txt
@@ -61,21 +55,17 @@ jobs:
           cat lintOutput.txt
           
           if [ -n "$LINT_ERRORS" ]; then
-            {
-              echo 'PR_COMMENT<<EOF'
-              echo "Issue with linting detected."
-              echo "Linting failed with the following errors:"
-              echo "\`\`\`"
-              cat lintOutput.txt
-              echo "\`\`\`"
-              echo ""
-              echo "For more information on our linting policies, please see our [Linting-Guide](../tree/dev/Linting-Guide.md)."
-              echo ""
-              echo 'EOF'
-            } >> "$GITHUB_OUTPUT"
+            echo "Issue with linting detected." > pr_comment.txt
+            echo "Linting failed with the following errors:" >> pr_comment.txt
+            echo "\`\`\`" >> pr_comment.txt
+            cat lintOutput.txt >> pr_comment.txt
+            echo "\`\`\`" >> pr_comment.txt
+            echo "" >> pr_comment.txt
+            echo "For more information on our linting policies, please see our [Linting-Guide](../tree/dev/Linting-Guide.md)." >> pr_comment.txt
+            echo "" >> pr_comment.txt
             exit 1
           else
-            echo "PR_COMMENT=Linting succeeded." >> "$GITHUB_OUTPUT"
+            echo "PR_COMMENT=Linting succeeded."
           fi
 
       - name: Notify PR on Failure
@@ -83,7 +73,7 @@ jobs:
         uses: ./.github/actions/pr-comment
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          pr_comment: ${{ steps.comment.outputs.PR_COMMENT }}
+          pr_comment: "fjjfjf"
 
   run_testcase:
     runs-on: ubuntu-latest
