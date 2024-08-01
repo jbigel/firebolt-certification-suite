@@ -22,17 +22,7 @@ jobs:
 
       - name: Comment on PR
         if: failure()
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_COMMENT: ${{ env.FAIL_OUTPUT }}
-        run: |
-          JSON_PAYLOAD=$(jq -n --arg body "$PR_COMMENT" '{"body": $body}')
-          
-          echo "Generated JSON payload:"
-          echo "$JSON_PAYLOAD"
-          
-          curl -X POST \
-            -H "Authorization: Bearer $GITHUB_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d "$JSON_PAYLOAD" \
-            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
+        uses: ./.github/actions/pr-comment
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pr_comment: ${{ env.FAIL_OUTPUT }}

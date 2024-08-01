@@ -41,43 +41,32 @@ jobs:
           if [ -f lintOutput.txt ]; then
               LINT_ERRORS=$(grep -E '[1-9][0-9]*\serror' lintOutput.txt || true)
           fi
-          git branch
           cat lintOutput.txt
           
           if [ -n "$LINT_ERRORS" ]; then
-            {
+           {
               echo 'PR_COMMENT<<EOF'
-              echo "Issue with linting detected."
-              echo "Linting failed with the following errors:"
-              echo "\`\`\`"
-              cat lintOutput.txt
-              echo "\`\`\`"
-              echo ""
-              echo "For more information on our linting policies, please see our [Linting-Guide](../tree/dev/Linting-Guide.md)."
-              echo ""
-              echo EOF
+              echo -n 'Issue with linting detected.\n'
+              echo -n 'Linting failed with the following errors:\n'
+              echo -n '```\n'
+              awk '{printf "%s\\n", $0}' lintOutput.txt
+              echo -n '```\n'
+              echo -n '\n'
+              echo -n 'For more information on our linting policies, please see our [Linting-Guide](../tree/dev/Linting-Guide.md).\n'
+              echo '\n'
+              echo 'EOF'
             } >> "$GITHUB_OUTPUT"
             exit 1
           else
-            echo "PR_COMMENT=Linting succeeded." >> "$GITHUB_OUTPUT"
+            echo "PR_COMMENT=Linting succeeded."
           fi
 
       - name: Notify PR on Failure
         if: ${{ failure() && github.event_name == 'pull_request' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_COMMENT: ${{ steps.comment.outputs.PR_COMMENT }}
-        run: |
-          JSON_PAYLOAD=$(jq -n --arg body "$PR_COMMENT" '{"body": $body}')
-
-          echo "Generated JSON payload:"
-          echo "$JSON_PAYLOAD"
-
-          curl -X POST \
-            -H "Authorization: Bearer $GITHUB_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d "$JSON_PAYLOAD" \
-            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
+        uses: ./.github/actions/pr-comment
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pr_comment: ${{ steps.comment.outputs.PR_COMMENT }}
 
   run_testcase:
     runs-on: ubuntu-latest
@@ -104,41 +93,57 @@ jobs:
       # To remove ANSI escape characters
       - name: Remove ANSI escape codes from sampleRunOutput.txt
         run: sed -i "s/\x1B\[[0-9;]*[JKmsu]//g" sampleRunOutput.txt
-
+          
       - name: Determine comment based on test results
         id: comment
         run: |
-
-          git branch
-          cat sampleRunOutput.txt
-          
-          if grep -q "0 passing" sampleRunOutput.txt; then
+          if grep -q "Build failed" sampleRunOutput.txt; then
+            # Build errors
+            grep -A 5 "Build failed" sampleRunOutput.txt > buildErrors.txt
+            cat buildErrors.txt
+            
+           {
+              echo 'PR_COMMENT<<EOF'
+              echo -n 'Build error occurred while running sample test with the following errors:\n'
+              echo -n '\n'
+              echo -n '```\n'
+              awk '{gsub(/"/, "\\\""); printf "%s\\n", $0}' buildErrors.txt
+              echo -n '```\n'
+              echo -n '\n'
+              echo -n 'For more information on our testing policies, please see our [Testing-Guide](../tree/dev/Testing-Guide.md).\n'
+              echo '\n'
+              echo 'EOF'
+            } >> "$GITHUB_OUTPUT"
+            exit 1
+          elif grep -q "0 passing" sampleRunOutput.txt; then
+            # Test case failure
             FAILURE_REASON=$(sed -n '/1 failing/,/\[mochawesome\]/ {
                             /1 failing/b
                             /\[mochawesome\]/b
                             p
                             }' sampleRunOutput.txt > failure_reason.txt)
-            echo "PR_COMMENT=Hello feature Run failed" >> "$GITHUB_OUTPUT"
+          
+            {
+              echo 'PR_COMMENT<<EOF'
+              echo -n 'Hello feature run failed with the following errors:\n'
+              echo -n '\n'
+              echo -n '```\n'
+              awk '{gsub(/"/, "\\\""); printf "%s\\n", $0}' failure_reason.txt
+              echo -n '```\n'
+              echo -n '\n'
+              echo -n 'For more information on our testing policies, please see our [Testing-Guide](../tree/dev/Testing-Guide.md).\n'
+              echo '\n'
+              echo 'EOF'
+            } >> "$GITHUB_OUTPUT"
             exit 1
           else
-            echo "PR_COMMENT=Hello feature Run Passed." >> "$GITHUB_OUTPUT"
+            echo "Hello feature run succeeded."
           fi
+
 
       - name: Notify PR on Failure
         if: ${{ failure() && github.event_name == 'pull_request' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_COMMENT: ${{ steps.comment.outputs.PR_COMMENT }}
-        run: |
-          # Read the content of failure_reason.txt into a variable
-          FAILURE_REASON_CONTENT=$(cat failure_reason.txt)
-          JSON_PAYLOAD=$(jq -n --arg body "$PR_COMMENT :: $FAILURE_REASON_CONTENT" '{"body": $body}')
-
-          echo "Generated JSON payload:"
-          echo "$JSON_PAYLOAD"
-
-          curl -X POST \
-            -H "Authorization: Bearer $GITHUB_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d "$JSON_PAYLOAD" \
-            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
+        uses: ./.github/actions/pr-comment
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pr_comment:  ${{ steps.comment.outputs.PR_COMMENT }}
