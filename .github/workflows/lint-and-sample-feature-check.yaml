@@ -32,8 +32,7 @@ jobs:
         run: yarn install
 
       - name: Check for linting errors
-        run: |       
-          yarn run lint > lintOutput.txt || true
+        run: yarn run lint > lintOutput.txt || true
 
       - name: Determine comment based on linting results
         id: comment
@@ -93,15 +92,13 @@ jobs:
 
       # To remove ANSI escape characters
       - name: Remove ANSI escape codes from sampleRunOutput.txt
-        run: |
-          cat sampleRunOutput.txt
-          sed -i "s/\x1B\[[0-9;]*[JKmsu]//g" sampleRunOutput.txt
+        run: sed -i "s/\x1B\[[0-9;]*[JKmsu]//g" sampleRunOutput.txt
           
       - name: Determine comment based on test results
         id: comment
         run: |
           if grep -q "Build failed" sampleRunOutput.txt; then
-          
+            # Build errors
             grep -A 5 "Build failed" sampleRunOutput.txt > buildErrors.txt
             cat buildErrors.txt
             
@@ -119,12 +116,12 @@ jobs:
             } >> "$GITHUB_OUTPUT"
             exit 1
           elif grep -q "0 passing" sampleRunOutput.txt; then
+            # Test case failure
             FAILURE_REASON=$(sed -n '/1 failing/,/\[mochawesome\]/ {
                             /1 failing/b
                             /\[mochawesome\]/b
                             p
                             }' sampleRunOutput.txt > failure_reason.txt)
-            cat failure_reason.txt
           
             {
               echo 'PR_COMMENT<<EOF'
