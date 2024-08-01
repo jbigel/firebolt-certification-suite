@@ -106,16 +106,20 @@ jobs:
             cat buildErrors.txt
 
             echo 'Build error occured while running sample test with the following errors:' > pr_comment.txt
-            echo '' >> pr_comment.txt
+            echo '\n' >> pr_comment.txt
             echo '```' >> pr_comment.txt
             cat buildErrors.txt >> pr_comment.txt
             echo '```' >> pr_comment.txt
-            echo '' >> pr_comment.txt
+            echo '\n' >> pr_comment.txt
             echo 'For more information on our testing policies, please see our [Testing-Guide](../tree/dev/Testing-Guide.md).' >> pr_comment.txt
             echo '' >> pr_comment.txt
 
             cat pr_comment.txt
-            echo "PR_COMMENT=$(awk '{printf "%s\\n", $0}' pr_comment.txt)" >> "$GITHUB_OUTPUT"
+
+            escaped_comment=$(awk '{printf "%s\\n", $0}' pr_comment.txt)
+            echo $escaped_comment
+            
+            echo "PR_COMMENT=$escaped_comment" >> "$GITHUB_OUTPUT"
             echo "$GITHUB_OUTPUT"
             
             {
