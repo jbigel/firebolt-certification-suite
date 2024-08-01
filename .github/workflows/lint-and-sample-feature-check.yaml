@@ -118,24 +118,27 @@ jobs:
 
             escaped_comment=$(awk '{printf "%s\\n", $0}' pr_comment.txt)
             echo $escaped_comment
+
+            awk '{printf "%s\\n", $0}' pr_comment.txt > test.txt
+            cat test.txt
             
-            echo "PR_COMMENT=$escaped_comment" >> "$GITHUB_OUTPUT"
-            echo "$GITHUB_OUTPUT"
+            # echo "PR_COMMENT=$escaped_comment" >> "$GITHUB_OUTPUT"
+            #echo "$GITHUB_OUTPUT"
             
-            {
-              echo 'PR_COMMENT<<EOF'
-              echo -n 'Build error occured while running sample test with the following errors:\n'
-              echo -n '```\n'
-              awk '{printf "%s\\n", $0}' buildErrors.txt
-              echo -n '```\n'
-              echo -n '\n'
-              echo 'For more information on our testing policies, please see our [Testing-Guide](../tree/dev/Testing-Guide.md).\n'
-              echo '\n'
-              echo 'EOF'
-            } >> "$GITHUB_OUTPUT"
+            # {
+            #   echo 'PR_COMMENT<<EOF'
+            #   echo -n 'Build error occured while running sample test with the following errors:\n'
+            #   echo -n '```\n'
+            #   awk '{printf "%s\\n", $0}' buildErrors.txt
+            #   echo -n '```\n'
+            #   echo -n '\n'
+            #   echo 'For more information on our testing policies, please see our [Testing-Guide](../tree/dev/Testing-Guide.md).\n'
+            #   echo '\n'
+            #   echo 'EOF'
+            # } >> "$GITHUB_OUTPUT"
             
             echo "made it here"
-            echo "$GITHUB_OUTPUT"
+            # echo "$GITHUB_OUTPUT"
             exit 1
           fi
 
@@ -144,4 +147,4 @@ jobs:
         uses: ./.github/actions/pr-comment
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          pr_comment: ${{ steps.comment.outputs.PR_COMMENT }}
+          pr_comment: $(cat test.txt)
