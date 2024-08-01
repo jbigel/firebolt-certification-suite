@@ -105,6 +105,16 @@ jobs:
             grep -A 10 "Build failed" sampleRunOutput.txt > buildErrors.txt
             cat buildErrors.txt
 
+            echo 'Issue with linting detected.' > pr_comment.txt
+            echo 'Linting failed with the following errors:' >> pr_comment.txt
+            echo '```' >> pr_comment.txt
+            cat lintOutput.txt >> pr_comment.txt
+            echo '```' >> pr_comment.txt
+            echo '' >> pr_comment.txt
+            echo 'For more information on our linting policies, please see our [Linting-Guide](../tree/dev/Linting-Guide.md).' >> pr_comment.txt
+            echo '' >> pr_comment.txt
+
+            echo "PR_COMMENT=$(awk '{printf "%s\\n", $0}' pr_comment.txt)"
             {
               echo 'PR_COMMENT<<EOF'
               echo -n 'Build error occured while running sample test with the following errors:\n'
