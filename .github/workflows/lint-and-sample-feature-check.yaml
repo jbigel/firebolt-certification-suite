@@ -118,6 +118,16 @@ jobs:
               echo 'EOF'
             } >> "$GITHUB_OUTPUT"
             exit 1
+          elif grep -q "0 passing" sampleRunOutput.txt; then
+            FAILURE_REASON=$(sed -n '/1 failing/,/\[mochawesome\]/ {
+                            /1 failing/b
+                            /\[mochawesome\]/b
+                            p
+                            }' sampleRunOutput.txt > failure_reason.txt)
+            cat failure_reason.txt
+            echo "PR_COMMENT=Hello feature Run failed :: $(cat failure_reason.txt)" >> "$GITHUB_OUTPUT"
+          else
+            echo "Hello feature run succeeded."
           fi
 
 
