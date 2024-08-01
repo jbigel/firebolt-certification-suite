@@ -116,8 +116,8 @@ jobs:
             
             echo "made it here"
             echo "$GITHUB_OUTPUT"
+            exit 1
           fi
-          #   exit 1
           # else
           #   PASSING_COUNT=$(grep -o '[0-9]\+ passing' sampleRunOutput.txt | grep -o '[0-9]\+' || echo 0)
             
