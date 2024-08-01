@@ -110,18 +110,13 @@ jobs:
               echo -n 'Issue with linting detected.\n'
               echo -n 'Linting failed with the following errors:\n'
               echo -n '```\n'
-              awk '{printf "%s\\n", $0}' buildErrors.txt
+              awk '{gsub(/"/, "\\\""); printf "%s\\n", $0}' buildErrors.txt
               echo -n '```\n'
               echo -n '\n'
               echo -n 'For more information on our linting policies, please see our [Linting-Guide](../tree/dev/Linting-Guide.md).\n'
               echo '\n'
               echo 'EOF'
             } >> "$GITHUB_OUTPUT"
-            echo "$GITHUB_OUTPUT"
-            echo $GITHUB_OUTPUT
-            
-            echo "made it here"
-            echo "$GITHUB_OUTPUT"
             exit 1
           fi
 
