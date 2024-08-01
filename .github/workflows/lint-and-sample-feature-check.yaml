@@ -114,6 +114,7 @@ jobs:
             echo 'For more information on our testing policies, please see our [Testing-Guide](../tree/dev/Testing-Guide.md).' >> pr_comment.txt
             echo '' >> pr_comment.txt
 
+            cat pr_comment.txt
             echo "PR_COMMENT=$(awk '{printf "%s\\n", $0}' pr_comment.txt)" >> "$GITHUB_OUTPUT"
             echo "$GITHUB_OUTPUT"
             
