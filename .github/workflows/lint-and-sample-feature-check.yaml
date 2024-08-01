@@ -96,51 +96,43 @@ jobs:
         run: |
           cat sampleRunOutput.txt
           sed -i "s/\x1B\[[0-9;]*[JKmsu]//g" sampleRunOutput.txt
-
+          
       - name: Determine comment based on test results
         id: comment
         run: |
           if grep -q "Build failed" sampleRunOutput.txt; then
-          
+            
+            # Extract build errors
             grep -A 10 "Build failed" sampleRunOutput.txt > buildErrors.txt
-            cat buildErrors.txt
             
-            echo 'Build error occurred while running sample test with the following errors:' > pr_comment.txt
-            echo -e '\n' >> pr_comment.txt
-            echo '```' >> pr_comment.txt
-            cat buildErrors.txt >> pr_comment.txt
-            echo '```' >> pr_comment.txt
-            echo -e '\n' >> pr_comment.txt
-            echo 'For more information on our testing policies, please see our [Testing-Guide](../tree/dev/Testing-Guide.md).' >> pr_comment.txt
-            echo -e '\n' >> pr_comment.txt
-
+            # Prepare the comment
+            {
+              echo 'Build error occurred while running sample test with the following errors:'
+              echo ''
+              echo '```'
+              cat buildErrors.txt
+              echo '```'
+              echo ''
+              echo 'For more information on our testing policies, please see our [Testing-Guide](../tree/dev/Testing-Guide.md).'
+              echo ''
+            } > pr_comment.txt
+      
+            # Verify the content
             cat pr_comment.txt
-
-            escaped_comment=$(awk '{printf "%s\\n", $0}' pr_comment.txt)
-            echo $escaped_comment
-
-            # awk '{printf "%s\\n", $0}' pr_comment.txt > test.txt
-            # cat test.txt
-            
-            echo "PR_COMMENT=$escaped_comment" >> "$GITHUB_OUTPUT"
-            echo "$GITHUB_OUTPUT"
-            
-            # {
-            #   echo 'PR_COMMENT<<EOF'
-            #   echo -n 'Build error occured while running sample test with the following errors:\n'
-            #   echo -n '```\n'
-            #   awk '{printf "%s\\n", $0}' buildErrors.txt
-            #   echo -n '```\n'
-            #   echo -n '\n'
-            #   echo 'For more information on our testing policies, please see our [Testing-Guide](../tree/dev/Testing-Guide.md).\n'
-            #   echo '\n'
-            #   echo 'EOF'
-            # } >> "$GITHUB_OUTPUT"
-            
-            echo "made it here"
-            # echo "$GITHUB_OUTPUT"
+      
+            # Escape newlines and set the output
+            pr_comment=$(<pr_comment.txt)
+            pr_comment="${pr_comment//'%'/'%25'}"
+            pr_comment="${pr_comment//$'\n'/'%0A'}"
+            pr_comment="${pr_comment//$'\r'/'%0D'}"
+            echo "PR_COMMENT=$pr_comment" >> "$GITHUB_OUTPUT"
+      
+            # Verify the output variable
+            echo "PR_COMMENT=$pr_comment"
+      
             exit 1
           fi
+
 
       - name: Notify PR on Failure
         if: ${{ failure() && github.event_name == 'pull_request' }}
