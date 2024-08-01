@@ -117,6 +117,8 @@ jobs:
               echo '\n'
               echo 'EOF'
             } >> "$GITHUB_OUTPUT"
+            echo "$GITHUB_OUTPUT"
+            echo $GITHUB_OUTPUT
             
             echo "made it here"
             echo "$GITHUB_OUTPUT"
