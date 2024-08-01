@@ -119,11 +119,11 @@ jobs:
             escaped_comment=$(awk '{printf "%s\\n", $0}' pr_comment.txt)
             echo $escaped_comment
 
-            awk '{printf "%s\\n", $0}' pr_comment.txt > test.txt
-            cat test.txt
+            # awk '{printf "%s\\n", $0}' pr_comment.txt > test.txt
+            # cat test.txt
             
-            # echo "PR_COMMENT=$escaped_comment" >> "$GITHUB_OUTPUT"
-            #echo "$GITHUB_OUTPUT"
+            echo "PR_COMMENT=$escaped_comment" >> "$GITHUB_OUTPUT"
+            echo "$GITHUB_OUTPUT"
             
             # {
             #   echo 'PR_COMMENT<<EOF'
@@ -147,4 +147,4 @@ jobs:
         uses: ./.github/actions/pr-comment
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          pr_comment: cat test.txt
+          pr_comment:  ${{ steps.comment.outputs.PR_COMMENT }}
