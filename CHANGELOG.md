@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/jbigel/firebolt-certification-suite/compare/v1.5.1...v1.6.0) (2024-08-01)
+
+
+### Features
+
+* making pr comment a common action ([#19](https://github.com/jbigel/firebolt-certification-suite/issues/19)) ([023996e](https://github.com/jbigel/firebolt-certification-suite/commit/023996e95f257a3b209f4ec5bf610237750c406c))
+
 # [1.6.0-dev.1](https://github.com/jbigel/firebolt-certification-suite/compare/v1.5.1...v1.6.0-dev.1) (2024-08-01)
 
 
