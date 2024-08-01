@@ -114,7 +114,9 @@ jobs:
             echo 'For more information on our linting policies, please see our [Linting-Guide](../tree/dev/Linting-Guide.md).' >> pr_comment.txt
             echo '' >> pr_comment.txt
 
-            echo "PR_COMMENT=$(awk '{printf "%s\\n", $0}' pr_comment.txt)"
+            echo "PR_COMMENT=$(awk '{printf "%s\\n", $0}' pr_comment.txt)" >> "$GITHUB_OUTPUT"
+            echo "$GITHUB_OUTPUT"
+            
             {
               echo 'PR_COMMENT<<EOF'
               echo -n 'Build error occured while running sample test with the following errors:\n'
