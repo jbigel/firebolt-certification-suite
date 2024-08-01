@@ -111,6 +111,7 @@ jobs:
               awk '{printf "%s\\n", $0}' buildErrors.txt
               echo -n '```\n'
               echo 'For more information on our testing policies, please see our [Testing-Guide](../tree/dev/Testing-Guide.md).\n'
+              echo '\n'
               echo 'EOF'
             } >> "$GITHUB_OUTPUT"
             
