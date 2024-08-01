@@ -103,6 +103,7 @@ jobs:
           if grep -q "Build failed" sampleRunOutput.txt; then
           
             grep -A 10 "Build failed" sampleRunOutput.txt > buildErrors.txt
+            cat buildErrors.txt
 
             {
               echo 'PR_COMMENT<<EOF'
@@ -110,6 +111,7 @@ jobs:
               echo -n '```\n'
               awk '{printf "%s\\n", $0}' buildErrors.txt
               echo -n '```\n'
+              echo -n '\n'
               echo 'For more information on our testing policies, please see our [Testing-Guide](../tree/dev/Testing-Guide.md).\n'
               echo '\n'
               echo 'EOF'
@@ -119,25 +121,6 @@ jobs:
             echo "$GITHUB_OUTPUT"
             exit 1
           fi
-          # else
-          #   PASSING_COUNT=$(grep -o '[0-9]\+ passing' sampleRunOutput.txt | grep -o '[0-9]\+' || echo 0)
-            
-          #   FAILING_COUNT=$(grep -o '[0-9]\+ failing' sampleRunOutput.txt | grep -o '[0-9]\+' || echo 0)
-            
-          #   echo "passing $PASSING_COUNT, failing $FAILING_COUNT"
-          
-          #   if [ "$FAILING_COUNT" -eq 0 ] && [ "$PASSING_COUNT" -gt 0 ]; then
-          #     echo "Tests passed successfully."
-          #   else
-          #     FAILURE_REASON=$(sed -n '/1 failing/,/\[mochawesome\]/ {
-          #                     /1 failing/b
-          #                     /\[mochawesome\]/b
-          #                     p
-          #                     }' sampleRunOutput.txt > failure_reason.txt)
-          #     echo "PR_COMMENT=Hello feature Run failed $(cat failure_reason.txt)" >> "$GITHUB_OUTPUT"
-          #     exit 1
-          #   fi
-          # fi
 
       - name: Notify PR on Failure
         if: ${{ failure() && github.event_name == 'pull_request' }}
